@@ -94,3 +94,4 @@ Both mascots read `~/.claude/clawd_state`. No file → statusline animates alway
 - If the status line goes blank, run the preview command above to surface errors.
 - Truecolor ANSI is used for the statusline art — every modern terminal (Terminal.app, iTerm2, Ghostty, kitty, WezTerm) supports it.
 - Windows/Linux: statusline mascot works anywhere Python 3 does; the overlay is macOS-only.
+# terminal-claude-mascot
