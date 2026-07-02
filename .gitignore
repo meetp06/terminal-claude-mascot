@@ -3,7 +3,3 @@ clawd_overlay.swift.backup
 __pycache__/
 .DS_Store
 .claude/
-miband_project/
-build_miband_project.py
-export_miband_frames.py
-miband_export/
