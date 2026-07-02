@@ -1,0 +1,5 @@
+clawd-overlay
+clawd_overlay.swift.backup
+__pycache__/
+.DS_Store
+.claude/
