@@ -3,3 +3,10 @@ clawd_overlay.swift.backup
 __pycache__/
 .DS_Store
 .claude/
+
+# PetOS
+app/.build/
+app/dist/
+agentd/.venv/
+agentd/src/*.egg-info/
+.petos/
