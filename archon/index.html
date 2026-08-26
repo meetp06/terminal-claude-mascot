@@ -114,6 +114,14 @@
   .chip { padding: 9px 18px; border: 1px solid #d9d5cd; color: var(--body); border-radius: 999px; font-size: 14px; cursor: pointer; user-select: none; background: transparent; font-family: var(--sans); transition: all 0.2s ease; }
   .chip.on { border-color: var(--accent); background: var(--tint); color: var(--accent-deep); }
   .pills { display: flex; gap: 10px; }
+  .subpanel { display: flex; flex-direction: column; gap: 16px; }
+  .subpanel:empty { display: none; }
+  .subgroup { display: flex; flex-direction: column; gap: 8px; padding-top: 14px; border-top: 1px solid var(--hairline); }
+  .subgroup-title { font-size: 12px; letter-spacing: 0.14em; color: var(--muted); text-transform: uppercase; }
+  .sub-item { display: flex; align-items: center; gap: 10px; width: fit-content; padding: 7px 16px; border: 1px solid #d9d5cd; border-radius: 999px; background: transparent; font-family: var(--sans); font-size: 14px; color: var(--body); cursor: pointer; transition: all 0.2s ease; text-align: left; }
+  .sub-item.on { border-color: var(--accent); background: var(--tint); color: var(--accent-deep); }
+  .other-input { padding: 12px 18px; border: 1px solid #d9d5cd; border-radius: 999px; font-family: var(--sans); font-size: 15px; color: var(--ink); background: #ffffff; width: 100%; max-width: 440px; }
+  .other-input::placeholder { color: var(--muted); }
   .fineprint { font-size: 13px; color: var(--muted); }
   .form-error { display: none; font-size: 14px; color: var(--accent-deep); }
   .form-error.show { display: block; }
@@ -327,15 +335,16 @@
       <div class="q">
         <div class="q-label">What would you control first?</div>
         <div class="chips" id="chips">
-          <button type="button" class="chip">Presentations</button>
-          <button type="button" class="chip">Music and media</button>
-          <button type="button" class="chip">Smart home</button>
-          <button type="button" class="chip">Camera shutter</button>
-          <button type="button" class="chip">Gaming</button>
-          <button type="button" class="chip">VR and AR</button>
-          <button type="button" class="chip">Accessibility</button>
-          <button type="button" class="chip">Something else</button>
+          <button type="button" class="chip" data-key="presentations">Presentations</button>
+          <button type="button" class="chip" data-key="media">Music and media</button>
+          <button type="button" class="chip" data-key="home">Smart home</button>
+          <button type="button" class="chip" data-key="camera">Camera shutter</button>
+          <button type="button" class="chip" data-key="gaming">Gaming</button>
+          <button type="button" class="chip" data-key="vr">VR and AR</button>
+          <button type="button" class="chip" data-key="access">Accessibility</button>
+          <button type="button" class="chip" data-key="other">Something else</button>
         </div>
+        <div class="subpanel" id="subpanel"></div>
       </div>
       <div class="q">
         <div class="q-label">Would you test a rough early prototype and tell us the truth?</div>
@@ -509,8 +518,57 @@
       if (t) t.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
     });
   });
+  var SUBS = {
+    presentations: { title: 'Presentations — which functions?', items: ['Next and previous slide', 'Start or end the show', 'Black out the screen'] },
+    media: { title: 'Music and media — which functions?', items: ['Play and pause', 'Skip track', 'Volume up and down', 'Rewind 10 seconds'] },
+    home: { title: 'Smart home — which functions?', items: ['Lights on and off', 'Dim the lights', 'Lock the door', 'Thermostat'] },
+    camera: { title: 'Camera — which functions?', items: ['Take a photo', 'Start and stop video', 'Countdown timer'] },
+    gaming: { title: 'Gaming — which functions?', items: ['Menu navigation', 'Custom key binds', 'Emotes and quick actions'] },
+    vr: { title: 'VR and AR — which functions?', items: ['Menu select', 'Grab and drop', 'Move and teleport'] },
+    access: { title: 'Accessibility — which functions?', items: ['Answer and end calls', 'Any switch action', 'One-gesture help shortcut'] }
+  };
+  var subSel = {}; var otherVal = '';
+  function renderSubs() {
+    var panel = document.getElementById('subpanel');
+    panel.innerHTML = '';
+    document.querySelectorAll('#chips .chip.on').forEach(function (c) {
+      var key = c.dataset.key;
+      if (key === 'other') {
+        var group = document.createElement('div');
+        group.className = 'subgroup';
+        var t = document.createElement('div');
+        t.className = 'subgroup-title'; t.textContent = 'Something else — tell us';
+        var inp = document.createElement('input');
+        inp.type = 'text'; inp.className = 'other-input'; inp.id = 'other-input';
+        inp.placeholder = 'What would you control with a gesture?';
+        inp.maxLength = 200; inp.value = otherVal;
+        inp.addEventListener('input', function () { otherVal = inp.value; });
+        group.appendChild(t); group.appendChild(inp); panel.appendChild(group);
+        return;
+      }
+      var def = SUBS[key]; if (!def) return;
+      if (!subSel[key]) subSel[key] = {};
+      var g = document.createElement('div'); g.className = 'subgroup';
+      var title = document.createElement('div');
+      title.className = 'subgroup-title'; title.textContent = def.title;
+      g.appendChild(title);
+      def.items.forEach(function (label) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'sub-item' + (subSel[key][label] ? ' on' : '');
+        b.textContent = label;
+        b.addEventListener('click', function () {
+          subSel[key][label] = !subSel[key][label];
+          b.classList.toggle('on', !!subSel[key][label]);
+        });
+        g.appendChild(b);
+      });
+      panel.appendChild(g);
+    });
+  }
   document.getElementById('chips').addEventListener('click', function (ev) {
-    var c = ev.target.closest('.chip'); if (c) c.classList.toggle('on');
+    var c = ev.target.closest('.chip'); if (!c) return;
+    c.classList.toggle('on');
+    renderSubs();
   });
   document.getElementById('tester').addEventListener('click', function (ev) {
     var c = ev.target.closest('.chip'); if (!c) return;
@@ -542,8 +600,15 @@
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { err: 'Please enter a valid email address.' };
     var uses = [];
     document.querySelectorAll('#chips .chip.on').forEach(function (c) { uses.push(c.textContent); });
+    var details = [];
+    Object.keys(subSel).forEach(function (key) {
+      var picked = Object.keys(subSel[key]).filter(function (k) { return subSel[key][k]; });
+      if (picked.length && document.querySelector('#chips .chip.on[data-key="' + key + '"]')) {
+        details.push(key + ': ' + picked.join(' | '));
+      }
+    });
     var tester = (document.querySelector('#tester .chip.on') || {}).dataset;
-    return { entry: { email: email, uses: uses, tester: tester ? tester.v : '', ts: new Date().toISOString() } };
+    return { entry: { email: email, uses: uses, details: details, other: otherVal.trim(), tester: tester ? tester.v : '', ts: new Date().toISOString() } };
   }
 
   async function saveEntry(entry) {
@@ -639,9 +704,10 @@
   function refreshAdmin() {
     if (location.hash !== '#admin') return;
     var all = readStore().entries.concat(localEntries());
-    var rows = ['email,uses,tester,timestamp'];
+    var q = function (s) { return '"' + String(s == null ? '' : s).replace(/"/g, "'") + '"'; };
+    var rows = ['email,uses,functions,other,tester,timestamp'];
     all.forEach(function (x) {
-      rows.push([x.email, '"' + (x.uses || []).join('; ') + '"', x.tester, x.ts].join(','));
+      rows.push([x.email, q((x.uses || []).join('; ')), q((x.details || []).join('; ')), q(x.other), x.tester, x.ts].join(','));
     });
     document.getElementById('admin-count').textContent = '(' + all.length + ')';
     document.getElementById('admin-csv').value = rows.join('\n');
