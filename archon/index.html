@@ -329,7 +329,10 @@
 
 <div class="canvas">
   <div class="wrap waitlist-outer" id="waitlist">
-    <form class="card" id="waitlist-form" novalidate>
+    <form class="card" id="waitlist-form" name="waitlist" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" novalidate>
+      <input type="hidden" name="form-name" value="waitlist">
+      <p style="display:none"><label>Leave empty: <input name="bot-field"></label></p>
+      <input type="hidden" name="uses"><input type="hidden" name="functions"><input type="hidden" name="other"><input type="hidden" name="tester"><input type="hidden" name="ts">
       <div>
         <h2>Get Archon first.</h2>
         <p class="sub">The first testers come from this list. Ten seconds, no spam.</p>
@@ -646,6 +649,21 @@
           body: JSON.stringify(entry)
         });
         if (res.ok) return { ok: true, mode: 'endpoint' };
+      } catch (e) {}
+    }
+    if (form.getAttribute('data-netlify')) {
+      try {
+        var body = new URLSearchParams({
+          'form-name': 'waitlist', email: entry.email,
+          uses: (entry.uses || []).join('; '), functions: (entry.details || []).join('; '),
+          other: entry.other || '', tester: entry.tester || '', ts: entry.ts
+        }).toString();
+        var nres = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: body
+        });
+        if (nres.ok) return { ok: true, mode: 'endpoint' };
       } catch (e) {}
     }
     try {
