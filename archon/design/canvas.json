@@ -1,0 +1,9 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "title": "Editorial (final)", "x": 0, "y": 0, "w": 1440, "h": 3760, "print": "flow" }
+  ],
+  "annotations": [
+    { "id": "form-note", "x": -360, "y": 60, "w": 300, "text": "Editorial direction, built out in full. The form here is still a visual mockup - say the word and I'll build the working page with real email capture from this design." }
+  ],
+  "launch": { "view": "canvas" }
+}

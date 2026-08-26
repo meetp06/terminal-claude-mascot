@@ -1,0 +1,603 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<title>Archon</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0,0;0,1&family=Space+Grotesk:wght@400;500&display=swap">
+<style>
+  :root {
+    --paper: #f7f2e9;
+    --panel: #fdfbf6;
+    --panel-deep: #f1eadd;
+    --hairline: #e0d7c8;
+    --ink: #1c1a17;
+    --body: #57504a;
+    --muted: #8a8177;
+    --accent: #c2571f;
+    --accent-deep: #9c4315;
+    --tint: #f6e6d9;
+    --serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+    --sans: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.6; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { color: var(--accent-deep); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+  .eyebrow { font-size: 13px; letter-spacing: 0.18em; color: var(--accent); text-transform: uppercase; }
+  h1, h2 { font-family: var(--serif); font-weight: 400; margin: 0; text-wrap: balance; }
+  .section { border-top: 1px solid var(--hairline); padding: 80px 0; }
+
+  /* Top bar */
+  .topbar { display: flex; justify-content: space-between; align-items: baseline; padding: 26px 0; border-bottom: 1px solid var(--hairline); }
+  .brand { font-family: var(--serif); font-size: 26px; }
+  .tag { font-size: 12px; letter-spacing: 0.16em; color: var(--muted); }
+
+  /* Hero */
+  .hero { padding: 88px 0 72px; display: flex; flex-direction: column; gap: 56px; }
+  .hero h1 { font-size: clamp(46px, 6.4vw, 88px); line-height: 1.04; max-width: 15ch; }
+  .hero-copy { display: flex; flex-direction: column; gap: 26px; max-width: 860px; }
+  .hero p { margin: 0; font-size: clamp(17px, 1.5vw, 20px); color: var(--body); max-width: 60ch; }
+  .cta-row { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; margin-top: 6px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; padding: 16px 36px; background: var(--ink); color: var(--paper); font-family: var(--sans); font-size: 17px; font-weight: 500; border: none; border-radius: 999px; cursor: pointer; transition: transform 0.25s ease, background 0.25s ease; }
+  .btn:hover { background: #2e2a24; transform: translateY(-1px); }
+  .link-serif { font-family: var(--serif); font-style: italic; font-size: 16px; }
+
+  .film { background: var(--panel-deep); border-radius: 6px; aspect-ratio: 16 / 7.2; display: flex; align-items: center; justify-content: center; }
+  .film-inner { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .film-play { width: 76px; height: 76px; border-radius: 50%; border: 1px solid #b7ab97; display: flex; align-items: center; justify-content: center; }
+  .film-cap { font-size: 12px; letter-spacing: 0.08em; color: var(--muted); text-align: center; padding: 0 16px; }
+
+  .statline { display: flex; gap: 64px; border-top: 1px solid var(--hairline); padding-top: 30px; flex-wrap: wrap; }
+  .stat { font-size: 15px; color: var(--body); }
+  .stat b { font-family: var(--serif); font-weight: 400; font-size: 26px; color: var(--accent); margin-right: 10px; }
+
+  /* Ring interlude */
+  .ring-outer { height: 340vh; position: relative; background: var(--panel-deep); border-top: 1px solid var(--hairline); }
+  .ring-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
+  .ring-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: center; }
+  .ring-stage { display: flex; align-items: center; justify-content: center; }
+  .ring-stage svg { width: min(46vw, 560px); height: auto; }
+  .ring-side h2 { font-size: clamp(34px, 3.4vw, 48px); margin: 10px 0 28px; }
+  .layer-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .layer-item { display: flex; gap: 18px; align-items: baseline; padding: 13px 0; border-top: 1px solid var(--hairline); opacity: 0.32; transition: opacity 0.4s ease; }
+  .layer-item.active { opacity: 1; }
+  .layer-num { font-family: var(--serif); font-size: 19px; color: var(--accent); min-width: 22px; }
+  .layer-name { font-weight: 500; font-size: 16px; }
+  .layer-desc { font-size: 14px; color: var(--body); }
+  .ring-honest { margin-top: 26px; font-size: 13px; color: var(--muted); font-style: italic; font-family: var(--serif); max-width: 44ch; }
+
+  /* Today */
+  .lede { display: flex; flex-direction: column; gap: 14px; max-width: 820px; margin-bottom: 44px; }
+  .lede h2 { font-size: clamp(36px, 3.8vw, 52px); }
+  .lede p { margin: 0; font-size: 18px; color: var(--body); max-width: 65ch; }
+  .cols2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 56px; }
+  .col-block { border-top: 2px solid var(--ink); padding-top: 22px; display: flex; flex-direction: column; gap: 20px; }
+  .col-block.warm { border-top-color: var(--accent); }
+  .col-label { font-size: 13px; letter-spacing: 0.16em; }
+  .col-block.warm .col-label { color: var(--accent); }
+  .fact { display: flex; gap: 16px; align-items: flex-start; font-size: 16.5px; color: #33302b; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 9px; }
+  .arrow { font-family: var(--serif); color: var(--accent); flex-shrink: 0; }
+
+  /* How */
+  .cols3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px; }
+  .how { display: flex; flex-direction: column; gap: 12px; }
+  .how-num { font-family: var(--serif); font-size: 54px; color: var(--accent); line-height: 1; }
+  .how-name { font-family: var(--serif); font-size: 27px; }
+  .how p { margin: 0; font-size: 16px; color: var(--body); }
+
+  /* Waitlist */
+  .waitlist-outer { display: flex; justify-content: center; }
+  .card { width: 100%; max-width: 780px; background: var(--panel); border: 1px solid var(--hairline); border-radius: 8px; padding: clamp(28px, 5vw, 56px); display: flex; flex-direction: column; gap: 32px; }
+  .card h2 { font-size: clamp(30px, 3.4vw, 42px); }
+  .card .sub { margin: 8px 0 0; font-size: 17px; color: var(--body); }
+  .email-row { display: flex; gap: 12px; }
+  input[type="email"] { flex-grow: 1; min-width: 0; padding: 15px 20px; background: #ffffff; border: 1px solid #d8cfc0; border-radius: 999px; font-family: var(--sans); font-size: 16px; color: var(--ink); }
+  input[type="email"]::placeholder { color: var(--muted); }
+  .q { display: flex; flex-direction: column; gap: 14px; }
+  .q-label { font-size: 17px; font-weight: 500; }
+  .radio-row { display: flex; align-items: center; gap: 14px; padding: 14px 18px; background: #ffffff; border: 1px solid #d8cfc0; border-radius: 8px; cursor: pointer; transition: border-color 0.2s ease, background 0.2s ease; font-size: 16px; color: #33302b; }
+  .radio-row:hover { border-color: var(--muted); }
+  .radio-row input { accent-color: var(--accent); width: 18px; height: 18px; margin: 0; flex-shrink: 0; }
+  .radio-row.picked { border-color: var(--accent); background: var(--tint); }
+  .divider { display: flex; align-items: center; gap: 14px; }
+  .divider::before, .divider::after { content: ""; flex-grow: 1; height: 1px; background: var(--hairline); }
+  .divider span { font-size: 12px; letter-spacing: 0.14em; color: var(--muted); }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+  .chip { padding: 9px 18px; border: 1px solid #d8cfc0; color: var(--body); border-radius: 999px; font-size: 14px; cursor: pointer; user-select: none; background: transparent; font-family: var(--sans); transition: all 0.2s ease; }
+  .chip.on { border-color: var(--accent); background: var(--tint); color: var(--accent-deep); }
+  .pills { display: flex; gap: 10px; }
+  .fineprint { font-size: 13px; color: var(--muted); }
+  .form-error { display: none; font-size: 14px; color: var(--accent-deep); }
+  .form-error.show { display: block; }
+  .thanks { display: none; flex-direction: column; gap: 14px; text-align: center; padding: 24px 0; }
+  .thanks.show { display: flex; }
+  .thanks h3 { font-family: var(--serif); font-weight: 400; font-size: 34px; margin: 0; }
+  .thanks p { margin: 0; color: var(--body); }
+  .local-note { font-size: 13px; color: var(--muted); font-style: italic; }
+
+  /* Footer */
+  .footer { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 32px 0 44px; border-top: 1px solid var(--hairline); flex-wrap: wrap; }
+  .footer-left { font-size: 14px; color: var(--muted); }
+  .footer-links { display: flex; gap: 26px; font-family: var(--serif); font-style: italic; font-size: 16px; }
+
+  /* Sound toggle */
+  .sound { position: fixed; right: 22px; bottom: 22px; z-index: 50; display: flex; align-items: center; gap: 10px; padding: 10px 18px; background: var(--panel); border: 1px solid var(--hairline); border-radius: 999px; cursor: pointer; font-family: var(--sans); font-size: 13px; color: var(--body); box-shadow: 0 2px 12px rgba(28,26,23,0.08); transition: border-color 0.25s ease; }
+  .sound:hover { border-color: var(--muted); }
+  .sound.on { border-color: var(--accent); color: var(--accent-deep); }
+  .sound svg { width: 15px; height: 15px; }
+  .sound .wave2 { opacity: 0.25; transition: opacity 0.3s ease; }
+  .sound.on .wave2 { opacity: 1; }
+
+  /* Admin */
+  .admin { display: none; position: fixed; inset: auto 0 0 0; max-height: 60vh; overflow: auto; background: var(--ink); color: var(--paper); padding: 20px 28px; z-index: 100; font-size: 13px; }
+  .admin.show { display: block; }
+  .admin textarea { width: 100%; height: 130px; background: #2e2a24; color: var(--paper); border: 1px solid #57504a; font-family: monospace; font-size: 12px; padding: 10px; }
+  .admin button { margin-top: 8px; padding: 8px 16px; background: var(--paper); color: var(--ink); border: none; border-radius: 4px; cursor: pointer; font-family: var(--sans); }
+
+  @media (max-width: 900px) {
+    .ring-grid { grid-template-columns: 1fr; gap: 8px; }
+    .ring-stage svg { width: min(70vw, 340px); }
+    .ring-sticky { padding: 24px 0; }
+    .layer-item { padding: 9px 0; }
+    .cols2 { grid-template-columns: 1fr; gap: 36px; }
+    .cols3 { grid-template-columns: 1fr; gap: 36px; }
+  }
+  @media (max-width: 640px) {
+    .wrap { padding: 0 20px; }
+    .email-row { flex-direction: column; }
+    .btn { width: 100%; }
+    .footer { justify-content: center; text-align: center; }
+    .statline { gap: 28px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .btn, .chip, .radio-row, .layer-item { transition: none; }
+  }
+</style>
+
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand">Archon</div>
+    <div class="tag">A RING, IN PROGRESS</div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-copy">
+      <h1>The remote you never have to pick up.</h1>
+      <p>Archon is a ring that understands the way your hand moves &mdash; and keeps every bit of that motion to itself. No camera, no cloud. We are building it in the open, one gesture at a time.</p>
+      <div class="cta-row">
+        <button class="btn" data-scroll="#waitlist">Join the waitlist</button>
+        <a class="link-serif" href="#today">see what is real today</a>
+      </div>
+    </div>
+    <div class="film">
+      <div class="film-inner">
+        <div class="film-play">
+          <svg viewBox="0 0 24 24" width="24" height="24" style="margin-left:3px"><path d="M6 4 L20 12 L6 20 Z" fill="#1c1a17"></path></svg>
+        </div>
+        <div class="film-cap">[ DEMO FILM &mdash; A SWIPE CHANGES THE SLIDE. FILMING THIS WEEK. ]</div>
+      </div>
+    </div>
+    <div class="statline">
+      <div class="stat"><b>~1 ms</b> to understand you</div>
+      <div class="stat"><b>nothing</b> sent anywhere</div>
+      <div class="stat"><b>3 gestures</b> and counting</div>
+    </div>
+  </div>
+</div>
+
+<!-- Ring interlude -->
+<div class="ring-outer" id="ring-section">
+  <div class="ring-sticky">
+    <div class="wrap ring-grid">
+      <div class="ring-stage">
+        <svg id="ring-svg" viewBox="0 0 600 760" aria-label="Concept illustration of the ring's internal layers">
+          <g id="ring-layers"></g>
+        </svg>
+      </div>
+      <div class="ring-side">
+        <div class="eyebrow">Inside the ring</div>
+        <h2>Six layers, one gesture.</h2>
+        <ol class="layer-list" id="layer-list"></ol>
+        <div class="ring-honest">A concept illustration &mdash; the real internals will be smaller, denser, and harder-won.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="section" id="today">
+    <div class="lede">
+      <div class="eyebrow">No renders. No vapor.</div>
+      <h2>What exists today.</h2>
+      <p>Every number below comes from our current test set &mdash; one wearer, one room. Making it work on any hand is the mountain we are climbing, in public, with the waitlist watching.</p>
+    </div>
+    <div class="cols2">
+      <div class="col-block">
+        <div class="col-label">REAL TODAY</div>
+        <div class="fact"><span class="dot"></span><span>A working prototype on a dev board &mdash; an Arduino-class chip with a 6-axis motion sensor, worn on a finger strap</span></div>
+        <div class="fact"><span class="dot"></span><span>Three air gestures recognized: swipe left-to-right, swipe right-to-left, and an air-drawn circle</span></div>
+        <div class="fact"><span class="dot"></span><span>The neural network runs entirely on the device &mdash; it works in airplane mode</span></div>
+        <div class="fact"><span class="dot"></span><span>A 1.00 F1 score on our current validation set &mdash; small, but clean, after hand-auditing every mislabeled sample</span></div>
+      </div>
+      <div class="col-block warm">
+        <div class="col-label">NEXT UP</div>
+        <div class="fact"><span class="arrow">&rarr;</span><span>Bluetooth control &mdash; gestures become real keystrokes and media keys on your phone and computer</span></div>
+        <div class="fact"><span class="arrow">&rarr;</span><span>Training data from many hands, not one &mdash; waitlist members get first invites to record gestures</span></div>
+        <div class="fact"><span class="arrow">&rarr;</span><span>Ring-sized hardware &mdash; the part we refuse to fake with 3D renders until it exists</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="lede"><h2>How it works.</h2></div>
+    <div class="cols3">
+      <div class="how"><div class="how-num">1.</div><div class="how-name">Sense</div><p>A 6-axis motion sensor samples your hand&rsquo;s acceleration and rotation about a hundred times per second.</p></div>
+      <div class="how"><div class="how-num">2.</div><div class="how-name">Think</div><p>A tiny neural network runs on the ring itself and names the gesture in about one millisecond. Nothing leaves your finger.</p></div>
+      <div class="how"><div class="how-num">3.</div><div class="how-name">Act</div><p>Bluetooth carries the command to whatever you point it at: next slide, play and pause, lights on.</p></div>
+    </div>
+  </div>
+
+  <div class="section waitlist-outer" id="waitlist">
+    <form class="card" id="waitlist-form" novalidate>
+      <div>
+        <h2>Tell us what to build first.</h2>
+        <p class="sub">The waitlist is also a vote. Two fields, twenty seconds &mdash; the rest is optional.</p>
+      </div>
+      <div class="email-row">
+        <input type="email" name="email" id="f-email" placeholder="you@email.com" autocomplete="email" required>
+        <button class="btn" type="submit" id="f-submit">Put me on the list</button>
+      </div>
+      <div class="q">
+        <div class="q-label">If we could ship only one thing at launch, which do you pick?</div>
+        <label class="radio-row"><input type="radio" name="pick" value="gestures"><span>Gesture control for my computer, phone and slides</span></label>
+        <label class="radio-row"><input type="radio" name="pick" value="health"><span>Sleep and health tracking</span></label>
+        <label class="radio-row"><input type="radio" name="pick" value="payments"><span>Contactless payments</span></label>
+        <label class="radio-row"><input type="radio" name="pick" value="unlock"><span>Unlocking doors, cars and devices</span></label>
+      </div>
+      <div class="divider"><span>OPTIONAL</span></div>
+      <div class="q">
+        <div class="q-label">What would you control first?</div>
+        <div class="chips" id="chips">
+          <button type="button" class="chip">Presentations</button>
+          <button type="button" class="chip">Music and media</button>
+          <button type="button" class="chip">Smart home</button>
+          <button type="button" class="chip">Camera shutter</button>
+          <button type="button" class="chip">Gaming</button>
+          <button type="button" class="chip">VR and AR</button>
+          <button type="button" class="chip">Accessibility</button>
+          <button type="button" class="chip">Something else</button>
+        </div>
+      </div>
+      <div class="q">
+        <div class="q-label">Would you test a rough early prototype and tell us the truth?</div>
+        <div class="pills chips" id="tester">
+          <button type="button" class="chip" data-v="yes">Yes</button>
+          <button type="button" class="chip" data-v="no">No</button>
+        </div>
+      </div>
+      <div class="form-error" id="f-error"></div>
+      <div class="fineprint">No spam &mdash; progress updates about twice a month. Unsubscribe anytime.</div>
+    </form>
+    <div class="card thanks" id="thanks">
+      <h3>You are on the list.</h3>
+      <p>Thank you &mdash; your vote counts. We publish progress about twice a month, ugly prototypes included.</p>
+      <p class="local-note" id="local-note"></p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-left">&copy; 2026 Archon &mdash; built in public by one engineer.</div>
+    <div class="footer-links">
+      <a href="#">[YOUR X HANDLE]</a>
+      <a href="#">[YOUR REDDIT]</a>
+      <a href="#">hello@[YOURDOMAIN]</a>
+    </div>
+  </div>
+</div>
+
+<button class="sound" id="sound" aria-pressed="false" aria-label="Toggle ambient sound">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <path d="M4 9 L4 15 L8 15 L13 20 L13 4 L8 9 Z" fill="currentColor" stroke="none"></path>
+    <path class="wave1" d="M16.5 9.5 A4 4 0 0 1 16.5 14.5"></path>
+    <path class="wave2" d="M19 7 A7.5 7.5 0 0 1 19 17"></path>
+  </svg>
+  <span id="sound-label">Sound</span>
+</button>
+
+<div class="admin" id="admin">
+  <strong>Waitlist entries</strong> <span id="admin-count"></span>
+  <textarea id="admin-csv" readonly></textarea>
+  <button type="button" id="admin-copy">Copy CSV</button>
+  <button type="button" id="admin-dl">Download CSV</button>
+</div>
+
+<script type="application/json" id="archon-data">{"entries":[]}</script>
+
+<script>
+(function () {
+  'use strict';
+
+  // Paste your form backend endpoint here when hosting on your own domain
+  // (e.g. "https://formspree.io/f/XXXXXXXX"). Leave empty otherwise.
+  var FORM_ENDPOINT = "";
+
+  var PRISTINE = '<!doctype html>\n' + document.documentElement.outerHTML;
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- ring layers ---------- */
+  var LAYERS = [
+    { name: 'Titanium shell', desc: 'the part you touch', rx: 172, sw: 30, color: '#1c1a17' },
+    { name: 'Antenna band', desc: 'Bluetooth, tuned around your finger', rx: 156, sw: 8, color: '#8a8177', dash: '2 7' },
+    { name: '6-axis motion sensor', desc: 'feels every move your hand makes', rx: 146, sw: 15, color: '#57504a' },
+    { name: 'Neural core', desc: 'where the model lives — about 1 ms', rx: 136, sw: 21, color: '#c2571f' },
+    { name: 'Battery and coil', desc: 'days of standby, wireless charge', rx: 148, sw: 25, color: '#33302b' },
+    { name: 'Comfort liner', desc: 'the hypoallergenic inner sleeve', rx: 160, sw: 9, color: '#b7ab97' }
+  ];
+  var CX = 300, CY = 380, RY = 0.34, STEP = 58;
+  var svgNS = 'http://www.w3.org/2000/svg';
+  var layerG = document.getElementById('ring-layers');
+  var layerEls = [];
+  LAYERS.forEach(function (L) {
+    var g = document.createElementNS(svgNS, 'g');
+    var e = document.createElementNS(svgNS, 'ellipse');
+    e.setAttribute('cx', CX); e.setAttribute('cy', CY);
+    e.setAttribute('rx', L.rx); e.setAttribute('ry', Math.round(L.rx * RY));
+    e.setAttribute('fill', 'none');
+    e.setAttribute('stroke', L.color);
+    e.setAttribute('stroke-width', L.sw);
+    if (L.dash) e.setAttribute('stroke-dasharray', L.dash);
+    e.setAttribute('stroke-linecap', 'round');
+    g.appendChild(e);
+    layerG.appendChild(g);
+    layerEls.push(g);
+  });
+  var listEl = document.getElementById('layer-list');
+  var itemEls = LAYERS.map(function (L, i) {
+    var li = document.createElement('li');
+    li.className = 'layer-item';
+    li.innerHTML = '<span class="layer-num">' + (i + 1) + '.</span><span><span class="layer-name">' + L.name +
+      '</span> &nbsp;<span class="layer-desc">' + L.desc + '</span></span>';
+    listEl.appendChild(li);
+    return li;
+  });
+
+  var section = document.getElementById('ring-section');
+  function easeInOut(t) { return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
+  function ringFrame() {
+    var rect = section.getBoundingClientRect();
+    var total = rect.height - window.innerHeight;
+    var p = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 1;
+    var e = easeInOut(p);
+    layerEls.forEach(function (g, i) {
+      var off = (i - 2.5) * STEP * e;
+      g.setAttribute('transform', 'translate(0 ' + off.toFixed(1) + ')');
+    });
+    itemEls.forEach(function (li, i) {
+      li.classList.toggle('active', p >= (i + 0.6) / (LAYERS.length + 0.6));
+    });
+  }
+  if (reduceMotion) {
+    layerEls.forEach(function (g, i) { g.setAttribute('transform', 'translate(0 ' + ((i - 2.5) * STEP) + ')'); });
+    itemEls.forEach(function (li) { li.classList.add('active'); });
+  } else {
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(function () { ringFrame(); ticking = false; }); }
+    }, { passive: true });
+    ringFrame();
+  }
+
+  /* ---------- ambient sound ---------- */
+  var soundBtn = document.getElementById('sound');
+  var soundLabel = document.getElementById('sound-label');
+  var audio = null;
+  function buildAudio() {
+    var Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return null;
+    var ctx = new Ctx();
+    var master = ctx.createGain(); master.gain.value = 0;
+    var filter = ctx.createBiquadFilter();
+    filter.type = 'lowpass'; filter.frequency.value = 620; filter.Q.value = 0.4;
+    filter.connect(master); master.connect(ctx.destination);
+    [[110, 'sine', 0.5], [164.81, 'sine', 0.38], [220.6, 'triangle', 0.16], [329.9, 'sine', 0.07]].forEach(function (cfg) {
+      var o = ctx.createOscillator(); o.type = cfg[1]; o.frequency.value = cfg[0];
+      var g = ctx.createGain(); g.gain.value = cfg[2];
+      o.connect(g); g.connect(filter); o.start();
+    });
+    var lfo = ctx.createOscillator(); lfo.frequency.value = 0.045;
+    var lfoGain = ctx.createGain(); lfoGain.gain.value = 190;
+    lfo.connect(lfoGain); lfoGain.connect(filter.frequency); lfo.start();
+    return { ctx: ctx, master: master };
+  }
+  soundBtn.addEventListener('click', function () {
+    var on = !soundBtn.classList.contains('on');
+    if (on) {
+      if (!audio) audio = buildAudio();
+      if (!audio) return;
+      audio.ctx.resume();
+      audio.master.gain.cancelScheduledValues(audio.ctx.currentTime);
+      audio.master.gain.setTargetAtTime(0.035, audio.ctx.currentTime, 1.4);
+      soundLabel.textContent = 'Sound on';
+    } else if (audio) {
+      audio.master.gain.setTargetAtTime(0, audio.ctx.currentTime, 0.5);
+      soundLabel.textContent = 'Sound';
+    }
+    soundBtn.classList.toggle('on', on);
+    soundBtn.setAttribute('aria-pressed', String(on));
+  });
+
+  /* ---------- form ---------- */
+  var form = document.getElementById('waitlist-form');
+  var thanks = document.getElementById('thanks');
+  var errEl = document.getElementById('f-error');
+  var localNote = document.getElementById('local-note');
+
+  document.querySelectorAll('[data-scroll]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var t = document.querySelector(b.getAttribute('data-scroll'));
+      if (t) t.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
+    });
+  });
+  document.querySelectorAll('.radio-row input').forEach(function (r) {
+    r.addEventListener('change', function () {
+      document.querySelectorAll('.radio-row').forEach(function (row) {
+        row.classList.toggle('picked', row.querySelector('input').checked);
+      });
+    });
+  });
+  document.getElementById('chips').addEventListener('click', function (ev) {
+    var c = ev.target.closest('.chip'); if (c) c.classList.toggle('on');
+  });
+  document.getElementById('tester').addEventListener('click', function (ev) {
+    var c = ev.target.closest('.chip'); if (!c) return;
+    document.querySelectorAll('#tester .chip').forEach(function (x) { x.classList.remove('on'); });
+    c.classList.add('on');
+  });
+
+  function readStore() {
+    try { return JSON.parse(document.getElementById('archon-data').textContent) || { entries: [] }; }
+    catch (e) { return { entries: [] }; }
+  }
+  function spliceStore(data) {
+    var json = JSON.stringify(data).replace(/<\//g, '<\\/');
+    return PRISTINE.replace(
+      /(<script type="application\/json" id="archon-data">)[\s\S]*?(<\/script>)/,
+      function (m, a, b) { return a + json + b; }
+    );
+  }
+  function localEntries() {
+    try { return JSON.parse(localStorage.getItem('archon-local') || '[]'); } catch (e) { return []; }
+  }
+  function showThanks(note) {
+    form.style.display = 'none';
+    thanks.classList.add('show');
+    localNote.textContent = note || '';
+  }
+  function collect() {
+    var email = document.getElementById('f-email').value.trim();
+    var pick = (form.querySelector('input[name="pick"]:checked') || {}).value || '';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { err: 'Please enter a valid email address.' };
+    if (!pick) return { err: 'Pick one launch feature — that vote is the whole point.' };
+    var uses = [];
+    document.querySelectorAll('#chips .chip.on').forEach(function (c) { uses.push(c.textContent); });
+    var tester = (document.querySelector('#tester .chip.on') || {}).dataset;
+    return { entry: { email: email, pick: pick, uses: uses, tester: tester ? tester.v : '', ts: new Date().toISOString() } };
+  }
+
+  async function saveEntry(entry) {
+    // Tier 1: page saves itself (artifact preview)
+    if (window.claude && typeof window.claude.use === 'function') {
+      var art = await window.claude.use('artifact');
+      if (art) {
+        var data = readStore();
+        data.entries.push(entry);
+        try { sessionStorage.setItem('archon-pending', JSON.stringify(entry)); } catch (e) {}
+        try {
+          await art.publish(spliceStore(data));
+          try { sessionStorage.removeItem('archon-pending'); sessionStorage.setItem('archon-thanks', '1'); } catch (e) {}
+          return { ok: true, mode: 'page' };
+        } catch (err) {
+          try { sessionStorage.removeItem('archon-pending'); } catch (e) {}
+          if (err && err.code === 'conflict') return { ok: true, mode: 'retrying' };
+        }
+      }
+    }
+    // Tier 2: configured endpoint (real hosting)
+    if (FORM_ENDPOINT) {
+      try {
+        var res = await fetch(FORM_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(entry)
+        });
+        if (res.ok) return { ok: true, mode: 'endpoint' };
+      } catch (e) {}
+    }
+    // Tier 3: this device only
+    try {
+      var arr = localEntries(); arr.push(entry);
+      localStorage.setItem('archon-local', JSON.stringify(arr));
+      return { ok: true, mode: 'local' };
+    } catch (e) { return { ok: false }; }
+  }
+
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    errEl.classList.remove('show');
+    var c = collect();
+    if (c.err) { errEl.textContent = c.err; errEl.classList.add('show'); return; }
+    var btn = document.getElementById('f-submit');
+    btn.disabled = true; btn.textContent = 'One moment…';
+    saveEntry(c.entry).then(function (r) {
+      if (r.ok) {
+        showThanks(r.mode === 'local' ? 'Saved on this device — this preview cannot record signups from every visitor yet.' : '');
+      } else {
+        errEl.textContent = 'Something went sideways — please try again.';
+        errEl.classList.add('show');
+        btn.disabled = false; btn.textContent = 'Put me on the list';
+      }
+    });
+  });
+
+  // After a self-save reload: show thanks, or retry a pending entry once
+  try {
+    if (sessionStorage.getItem('archon-thanks')) {
+      sessionStorage.removeItem('archon-thanks');
+      showThanks('');
+    } else {
+      var pending = sessionStorage.getItem('archon-pending');
+      if (pending) {
+        sessionStorage.removeItem('archon-pending');
+        var pe = JSON.parse(pending);
+        var have = readStore().entries.some(function (x) { return x.email === pe.email && x.ts === pe.ts; });
+        if (have) { showThanks(''); }
+        else saveEntry(pe).then(function (r) { if (r.ok) showThanks(r.mode === 'local' ? 'Saved on this device.' : ''); });
+      }
+    }
+  } catch (e) {}
+
+  /* ---------- admin (#admin) ---------- */
+  function refreshAdmin() {
+    if (location.hash !== '#admin') return;
+    var all = readStore().entries.concat(localEntries());
+    var rows = ['email,pick,uses,tester,timestamp'];
+    all.forEach(function (x) {
+      rows.push([x.email, x.pick, '"' + (x.uses || []).join('; ') + '"', x.tester, x.ts].join(','));
+    });
+    document.getElementById('admin-count').textContent = '(' + all.length + ')';
+    document.getElementById('admin-csv').value = rows.join('\n');
+    document.getElementById('admin').classList.add('show');
+  }
+  window.addEventListener('hashchange', refreshAdmin);
+  refreshAdmin();
+  document.getElementById('admin-copy').addEventListener('click', function () {
+    var t = document.getElementById('admin-csv'); t.select();
+    try { navigator.clipboard.writeText(t.value); } catch (e) { document.execCommand('copy'); }
+  });
+  document.getElementById('admin-dl').addEventListener('click', async function () {
+    var csv = document.getElementById('admin-csv').value;
+    if (window.claude && typeof window.claude.use === 'function') {
+      var dl = await window.claude.use('downloads');
+      if (dl) { try { await dl.save({ filename: 'archon-waitlist.csv', data: csv }); return; } catch (e) {} }
+    }
+    try {
+      var a = document.createElement('a');
+      a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+      a.download = 'archon-waitlist.csv';
+      document.body.appendChild(a); a.click(); a.remove();
+    } catch (e) {}
+  });
+})();
+</script>
+
+</body>
+</html>
