@@ -9,16 +9,16 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0,0;0,1&family=Space+Grotesk:wght@400;500&display=swap">
 <style>
   :root {
-    --paper: #f7f2e9;
-    --panel: #fdfbf6;
-    --panel-deep: #f1eadd;
-    --hairline: #e0d7c8;
-    --ink: #1c1a17;
-    --body: #57504a;
-    --muted: #8a8177;
+    --paper: #ffffff;
+    --panel: #fbfaf8;
+    --panel-deep: #f6f4ef;
+    --hairline: #e9e5de;
+    --ink: #17150f;
+    --body: #55524c;
+    --muted: #8f8b83;
     --accent: #c2571f;
     --accent-deep: #9c4315;
-    --tint: #f6e6d9;
+    --tint: #f9ede3;
     --serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
     --sans: 'Space Grotesk', system-ui, -apple-system, sans-serif;
   }
@@ -51,7 +51,7 @@
 
   .film { background: var(--panel-deep); border-radius: 6px; aspect-ratio: 16 / 7.2; display: flex; align-items: center; justify-content: center; }
   .film-inner { display: flex; flex-direction: column; align-items: center; gap: 16px; }
-  .film-play { width: 76px; height: 76px; border-radius: 50%; border: 1px solid #b7ab97; display: flex; align-items: center; justify-content: center; }
+  .film-play { width: 76px; height: 76px; border-radius: 50%; border: 1px solid #c4bfb4; display: flex; align-items: center; justify-content: center; }
   .film-cap { font-size: 12px; letter-spacing: 0.08em; color: var(--muted); text-align: center; padding: 0 16px; }
 
   .statline { display: flex; gap: 64px; border-top: 1px solid var(--hairline); padding-top: 30px; flex-wrap: wrap; }
@@ -99,11 +99,11 @@
   .card h2 { font-size: clamp(30px, 3.4vw, 42px); }
   .card .sub { margin: 8px 0 0; font-size: 17px; color: var(--body); }
   .email-row { display: flex; gap: 12px; }
-  input[type="email"] { flex-grow: 1; min-width: 0; padding: 15px 20px; background: #ffffff; border: 1px solid #d8cfc0; border-radius: 999px; font-family: var(--sans); font-size: 16px; color: var(--ink); }
+  input[type="email"] { flex-grow: 1; min-width: 0; padding: 15px 20px; background: #ffffff; border: 1px solid #d9d5cd; border-radius: 999px; font-family: var(--sans); font-size: 16px; color: var(--ink); }
   input[type="email"]::placeholder { color: var(--muted); }
   .q { display: flex; flex-direction: column; gap: 14px; }
   .q-label { font-size: 17px; font-weight: 500; }
-  .radio-row { display: flex; align-items: center; gap: 14px; padding: 14px 18px; background: #ffffff; border: 1px solid #d8cfc0; border-radius: 8px; cursor: pointer; transition: border-color 0.2s ease, background 0.2s ease; font-size: 16px; color: #33302b; }
+  .radio-row { display: flex; align-items: center; gap: 14px; padding: 14px 18px; background: #ffffff; border: 1px solid #d9d5cd; border-radius: 8px; cursor: pointer; transition: border-color 0.2s ease, background 0.2s ease; font-size: 16px; color: #33302b; }
   .radio-row:hover { border-color: var(--muted); }
   .radio-row input { accent-color: var(--accent); width: 18px; height: 18px; margin: 0; flex-shrink: 0; }
   .radio-row.picked { border-color: var(--accent); background: var(--tint); }
@@ -111,7 +111,7 @@
   .divider::before, .divider::after { content: ""; flex-grow: 1; height: 1px; background: var(--hairline); }
   .divider span { font-size: 12px; letter-spacing: 0.14em; color: var(--muted); }
   .chips { display: flex; flex-wrap: wrap; gap: 10px; }
-  .chip { padding: 9px 18px; border: 1px solid #d8cfc0; color: var(--body); border-radius: 999px; font-size: 14px; cursor: pointer; user-select: none; background: transparent; font-family: var(--sans); transition: all 0.2s ease; }
+  .chip { padding: 9px 18px; border: 1px solid #d9d5cd; color: var(--body); border-radius: 999px; font-size: 14px; cursor: pointer; user-select: none; background: transparent; font-family: var(--sans); transition: all 0.2s ease; }
   .chip.on { border-color: var(--accent); background: var(--tint); color: var(--accent-deep); }
   .pills { display: flex; gap: 10px; }
   .fineprint { font-size: 13px; color: var(--muted); }
@@ -135,6 +135,21 @@
   .sound svg { width: 15px; height: 15px; }
   .sound .wave2 { opacity: 0.25; transition: opacity 0.3s ease; }
   .sound.on .wave2 { opacity: 1; }
+
+  /* Floating CTA */
+  .mini-cta { position: fixed; top: 16px; right: 20px; z-index: 60; padding: 11px 24px; font-size: 14px; opacity: 0; pointer-events: none; transform: translateY(-6px); transition: opacity 0.35s ease, transform 0.35s ease, background 0.25s ease; box-shadow: 0 2px 14px rgba(23,21,15,0.12); }
+  .mini-cta.show { opacity: 1; pointer-events: auto; transform: none; }
+
+  /* Founder note */
+  .note { border-top: 1px solid var(--hairline); padding: 84px 0; display: flex; justify-content: center; }
+  .note-inner { max-width: 640px; text-align: center; display: flex; flex-direction: column; gap: 20px; padding: 0 8px; }
+  .note-inner p { margin: 0; font-family: var(--serif); font-style: italic; font-size: clamp(21px, 2.3vw, 27px); line-height: 1.5; color: var(--ink); }
+  .note-sign { font-size: 14px; color: var(--muted); letter-spacing: 0.05em; }
+
+  /* Scroll reveal */
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
 
   /* Admin */
   .admin { display: none; position: fixed; inset: auto 0 0 0; max-height: 60vh; overflow: auto; background: var(--ink); color: var(--paper); padding: 20px 28px; z-index: 100; font-size: 13px; }
@@ -246,11 +261,18 @@
     </div>
   </div>
 
+  <div class="note">
+    <div class="note-inner">
+      <p>&ldquo;I got tired of reaching for things &mdash; the phone, the clicker, the switch. So I am teaching a ring to listen to my hand instead. I build it alone, in the open, and the people on this list will try it before anyone else.&rdquo;</p>
+      <div class="note-sign">&mdash; [YOUR NAME], founder</div>
+    </div>
+  </div>
+
   <div class="section waitlist-outer" id="waitlist">
     <form class="card" id="waitlist-form" novalidate>
       <div>
         <h2>Get Archon first.</h2>
-        <p class="sub">Ten seconds. No spam.</p>
+        <p class="sub">The first testers come from this list. Ten seconds, no spam.</p>
       </div>
       <div class="email-row">
         <input type="email" name="email" id="f-email" placeholder="you@email.com" autocomplete="email" required>
@@ -297,6 +319,8 @@
   </div>
 </div>
 
+<button class="btn mini-cta" id="mini-cta" data-scroll="#waitlist">Join the waitlist</button>
+
 <button class="sound" id="sound" aria-pressed="false" aria-label="Toggle ambient sound">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
     <path d="M4 9 L4 15 L8 15 L13 20 L13 4 L8 9 Z" fill="currentColor" stroke="none"></path>
@@ -333,7 +357,7 @@
     { name: '6-axis motion sensor', desc: 'feels every move your hand makes', rx: 146, sw: 15, color: '#57504a' },
     { name: 'Neural core', desc: 'where the model lives — about 1 ms', rx: 136, sw: 21, color: '#c2571f' },
     { name: 'Battery and coil', desc: 'days of standby, wireless charge', rx: 148, sw: 25, color: '#33302b' },
-    { name: 'Comfort liner', desc: 'the hypoallergenic inner sleeve', rx: 160, sw: 9, color: '#b7ab97' }
+    { name: 'Comfort liner', desc: 'the hypoallergenic inner sleeve', rx: 160, sw: 9, color: '#c4bfb4' }
   ];
   var CX = 300, CY = 380, RY = 0.34, STEP = 58;
   var svgNS = 'http://www.w3.org/2000/svg';
@@ -548,6 +572,23 @@
       }
     }
   } catch (e) {}
+
+  /* ---------- scroll reveal + floating CTA ---------- */
+  if ('IntersectionObserver' in window) {
+    if (!reduceMotion) {
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.lede, .cols2, .cols3, .note-inner, .film, .statline').forEach(function (el) {
+        el.classList.add('reveal'); io.observe(el);
+      });
+    }
+    var mini = document.getElementById('mini-cta');
+    var heroSeen = true, wlSeen = false;
+    var updMini = function () { mini.classList.toggle('show', !heroSeen && !wlSeen); };
+    new IntersectionObserver(function (es) { es.forEach(function (e) { heroSeen = e.isIntersecting; }); updMini(); }, { threshold: 0.05 }).observe(document.querySelector('.hero'));
+    new IntersectionObserver(function (es) { es.forEach(function (e) { wlSeen = e.isIntersecting; }); updMini(); }, { threshold: 0.05 }).observe(document.getElementById('waitlist'));
+  }
 
   /* ---------- admin (#admin) ---------- */
   function refreshAdmin() {
