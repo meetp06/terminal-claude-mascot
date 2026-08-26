@@ -2,8 +2,8 @@
 
 Pre-launch, build-in-public waitlist page for Archon, an AI gesture-control
 smart ring. Apple-style design system: alternating light/dark tiles, a
-scroll-driven exploded view of the ring's concept layers, optional generative
-ambient sound, and a working signup form (email + interests + per-category
+scroll-driven exploded view of the ring's concept layers, looping background music (starts on first tap, off button
+remembered), and a working signup form (email + interests + per-category
 functions + free-text).
 
 ## Contents
