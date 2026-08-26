@@ -19,8 +19,8 @@
     --secondary-dark: #cccccc;
     --caption-dark: #86868b;
     --hairline: #e0e0e0;
-    --blue: #0066cc;
-    --blue-hover: #0055aa;
+    --blue: #002868;
+    --blue-hover: #003685;
     --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
   }
   * { box-sizing: border-box; }
@@ -120,7 +120,7 @@
   .card .sub { margin: 8px 0 0; font-size: 17px; color: var(--secondary); }
   .email-row { display: flex; gap: 10px; }
   input[type="email"] { flex-grow: 1; min-width: 0; padding: 13px 20px; background: var(--white); border: 1px solid var(--hairline); border-radius: 980px; font-family: var(--font); font-size: 17px; color: var(--ink); }
-  input[type="email"]:focus { border-color: #0071e3; outline: none; }
+  input[type="email"]:focus { border-color: #3f6db8; outline: none; }
   input[type="email"]::placeholder { color: var(--secondary); }
   .q { display: flex; flex-direction: column; gap: 14px; }
   .q-label { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
@@ -131,7 +131,7 @@
   .chip { padding: 9px 18px; border: 1px solid var(--hairline); background: var(--white); color: var(--ink); border-radius: 980px; font-size: 14px; letter-spacing: -0.224px; cursor: pointer; user-select: none; font-family: var(--font); transition: border-color 0.2s ease, box-shadow 0.2s ease; }
   .chip:hover { border-color: #b8b8bd; }
   .chip:active { transform: scale(0.95); }
-  .chip.on { border-color: #0071e3; box-shadow: inset 0 0 0 1px #0071e3; }
+  .chip.on { border-color: #3f6db8; box-shadow: inset 0 0 0 1px #3f6db8; }
   .pills { display: flex; gap: 8px; }
   .subpanel { display: flex; flex-direction: column; gap: 16px; }
   .subpanel:empty { display: none; }
@@ -139,9 +139,9 @@
   .subgroup-title { font-size: 12px; font-weight: 600; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.06em; }
   .sub-item { display: flex; align-items: center; width: fit-content; padding: 8px 16px; border: 1px solid var(--hairline); background: var(--white); border-radius: 980px; font-family: var(--font); font-size: 14px; letter-spacing: -0.224px; color: var(--ink); cursor: pointer; transition: border-color 0.2s ease, box-shadow 0.2s ease; text-align: left; }
   .sub-item:hover { border-color: #b8b8bd; }
-  .sub-item.on { border-color: #0071e3; box-shadow: inset 0 0 0 1px #0071e3; }
+  .sub-item.on { border-color: #3f6db8; box-shadow: inset 0 0 0 1px #3f6db8; }
   .other-input { padding: 12px 18px; border: 1px solid var(--hairline); border-radius: 980px; font-family: var(--font); font-size: 15px; color: var(--ink); background: var(--white); width: 100%; max-width: 440px; }
-  .other-input:focus { border-color: #0071e3; outline: none; }
+  .other-input:focus { border-color: #3f6db8; outline: none; }
   .other-input::placeholder { color: var(--secondary); }
   .fineprint { font-size: 13px; color: var(--secondary); }
   .form-error { display: none; font-size: 14px; color: #d70015; }
@@ -290,25 +290,25 @@
     </div>
     <div class="uses">
       <div class="use">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#0066cc" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="1"></rect><path d="M12 16 V20 M8 20 H16 M10 10 L14 10 M12 8 L14 10 L12 12"></path></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="#002868" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="1"></rect><path d="M12 16 V20 M8 20 H16 M10 10 L14 10 M12 8 L14 10 L12 12"></path></svg>
         <h3>On stage</h3>
         <p>Swipe. Next slide. No clicker to lose.</p>
         <div class="use-tag">SWIPE &rarr;</div>
       </div>
       <div class="use">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#0066cc" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12 H20 M5 12 C5 17 8 20 12 20 C16 20 19 17 19 12 M9 8 C9 6.5 10 6.5 10 5 M13 8 C13 6.5 14 6.5 14 5"></path></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="#002868" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12 H20 M5 12 C5 17 8 20 12 20 C16 20 19 17 19 12 M9 8 C9 6.5 10 6.5 10 5 M13 8 C13 6.5 14 6.5 14 5"></path></svg>
         <h3>In the kitchen</h3>
         <p>Flour on your hands. A circle pauses the video.</p>
         <div class="use-tag">CIRCLE &#9675;</div>
       </div>
       <div class="use">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#0066cc" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8 H8 L10 5.5 H14 L16 8 H20 V18 H4 Z"></path><circle cx="12" cy="13" r="3.2"></circle></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="#002868" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8 H8 L10 5.5 H14 L16 8 H20 V18 H4 Z"></path><circle cx="12" cy="13" r="3.2"></circle></svg>
         <h3>Behind the camera</h3>
         <p>Step back. A circle takes the shot.</p>
         <div class="use-tag">CIRCLE &#9675;</div>
       </div>
       <div class="use">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#0066cc" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14 C4 9.5 7.5 6 12 6 C16.5 6 20 9.5 20 14 M4 14 V17 A1.5 1.5 0 0 0 7 17 V14 Z M20 14 V17 A1.5 1.5 0 0 1 17 17 V14 Z"></path></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="#002868" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14 C4 9.5 7.5 6 12 6 C16.5 6 20 9.5 20 14 M4 14 V17 A1.5 1.5 0 0 0 7 17 V14 Z M20 14 V17 A1.5 1.5 0 0 1 17 17 V14 Z"></path></svg>
         <h3>On the move</h3>
         <p>Gloves on, phone away. A swipe skips the track.</p>
         <div class="use-tag">&larr; SWIPE</div>
@@ -421,7 +421,7 @@
     { name: 'Titanium shell', desc: 'the part you touch', rx: 172, sw: 30, color: '#f5f5f7' },
     { name: 'Antenna band', desc: 'Bluetooth, tuned around your finger', rx: 156, sw: 8, color: '#86868b', dash: '2 7' },
     { name: '6-axis motion sensor', desc: 'feels every move your hand makes', rx: 146, sw: 15, color: '#a1a1a6' },
-    { name: 'Neural core', desc: 'where the model lives — about 1 ms', rx: 136, sw: 21, color: '#2997ff' },
+    { name: 'Neural core', desc: 'where the model lives — about 1 ms', rx: 136, sw: 21, color: '#5c8fe6' },
     { name: 'Battery and coil', desc: 'days of standby, wireless charge', rx: 148, sw: 25, color: '#d2d2d7' },
     { name: 'Comfort liner', desc: 'the hypoallergenic inner sleeve', rx: 160, sw: 9, color: '#6e6e73' }
   ];
