@@ -136,6 +136,17 @@
   .sound .wave2 { opacity: 0.25; transition: opacity 0.3s ease; }
   .sound.on .wave2 { opacity: 1; }
 
+  /* Use cases */
+  .uses { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px; }
+  .use { border-top: 1px solid var(--hairline); padding-top: 24px; display: flex; flex-direction: column; gap: 12px; }
+  .use svg { width: 30px; height: 30px; }
+  .use h3 { margin: 0; font-family: var(--serif); font-weight: 400; font-size: 26px; }
+  .use p { margin: 0; font-size: 16px; color: var(--body); }
+  .use-tag { font-size: 12px; letter-spacing: 0.16em; color: var(--accent); margin-top: 4px; }
+  .uses-note { margin-top: 40px; font-size: 15px; color: var(--muted); }
+  @media (max-width: 900px) { .uses { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; } }
+  @media (max-width: 560px) { .uses { grid-template-columns: 1fr; } }
+
   /* Floating CTA */
   .mini-cta { position: fixed; top: 16px; right: 20px; z-index: 60; padding: 11px 24px; font-size: 14px; opacity: 0; pointer-events: none; transform: translateY(-6px); transition: opacity 0.35s ease, transform 0.35s ease, background 0.25s ease; box-shadow: 0 2px 14px rgba(23,21,15,0.12); }
   .mini-cta.show { opacity: 1; pointer-events: auto; transform: none; }
@@ -259,6 +270,40 @@
       <div class="how"><div class="how-num">2.</div><div class="how-name">Think</div><p>A neural net on the ring names the gesture in ~1 ms.</p></div>
       <div class="how"><div class="how-num">3.</div><div class="how-name">Act</div><p>Bluetooth fires the command. Next slide. Play. Lights.</p></div>
     </div>
+  </div>
+
+  <div class="section" id="uses">
+    <div class="lede">
+      <div class="eyebrow">What you&rsquo;ll use it for</div>
+      <h2>For the moments your phone can&rsquo;t reach.</h2>
+    </div>
+    <div class="uses">
+      <div class="use">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#c2571f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="1"></rect><path d="M12 16 V20 M8 20 H16 M10 10 L14 10 M12 8 L14 10 L12 12"></path></svg>
+        <h3>On stage</h3>
+        <p>Swipe. Next slide. No clicker to lose.</p>
+        <div class="use-tag">SWIPE &rarr;</div>
+      </div>
+      <div class="use">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#c2571f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12 H20 M5 12 C5 17 8 20 12 20 C16 20 19 17 19 12 M9 8 C9 6.5 10 6.5 10 5 M13 8 C13 6.5 14 6.5 14 5"></path></svg>
+        <h3>In the kitchen</h3>
+        <p>Flour on your hands. A circle pauses the video.</p>
+        <div class="use-tag">CIRCLE &#9675;</div>
+      </div>
+      <div class="use">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#c2571f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8 H8 L10 5.5 H14 L16 8 H20 V18 H4 Z"></path><circle cx="12" cy="13" r="3.2"></circle></svg>
+        <h3>Behind the camera</h3>
+        <p>Step back. A circle takes the shot.</p>
+        <div class="use-tag">CIRCLE &#9675;</div>
+      </div>
+      <div class="use">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#c2571f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14 C4 9.5 7.5 6 12 6 C16.5 6 20 9.5 20 14 M4 14 V17 A1.5 1.5 0 0 0 7 17 V14 Z M20 14 V17 A1.5 1.5 0 0 1 17 17 V14 Z"></path></svg>
+        <h3>On the move</h3>
+        <p>Gloves on, phone away. A swipe skips the track.</p>
+        <div class="use-tag">&larr; SWIPE</div>
+      </div>
+    </div>
+    <div class="uses-note">One ring, over Bluetooth &mdash; with the phone, laptop and TV you already own.</div>
   </div>
 
   <div class="note">
@@ -579,7 +624,7 @@
       var io = new IntersectionObserver(function (es) {
         es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
       }, { threshold: 0.12 });
-      document.querySelectorAll('.lede, .cols2, .cols3, .note-inner, .film, .statline').forEach(function (el) {
+      document.querySelectorAll('.lede, .cols2, .cols3, .uses, .note-inner, .film, .statline').forEach(function (el) {
         el.classList.add('reveal'); io.observe(el);
       });
     }
