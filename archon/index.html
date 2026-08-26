@@ -82,7 +82,7 @@
   .col-block.warm { border-top-color: var(--accent); }
   .col-label { font-size: 13px; letter-spacing: 0.16em; }
   .col-block.warm .col-label { color: var(--accent); }
-  .fact { display: flex; gap: 16px; align-items: flex-start; font-size: 16.5px; color: #33302b; }
+  .fact { display: flex; gap: 16px; align-items: flex-start; font-size: 19px; color: #33302b; }
   .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 9px; }
   .arrow { font-family: var(--serif); color: var(--accent); flex-shrink: 0; }
 
@@ -172,7 +172,7 @@
   <div class="hero">
     <div class="hero-copy">
       <h1>The remote you never have to pick up.</h1>
-      <p>Archon is a ring that understands the way your hand moves &mdash; and keeps every bit of that motion to itself. No camera, no cloud. We are building it in the open, one gesture at a time.</p>
+      <p>Swipe. Circle. Done. A ring that turns hand gestures into commands &mdash; AI on the ring, no camera, no cloud.</p>
       <div class="cta-row">
         <button class="btn" data-scroll="#waitlist">Join the waitlist</button>
         <a class="link-serif" href="#today">see what is real today</a>
@@ -218,21 +218,21 @@
     <div class="lede">
       <div class="eyebrow">No renders. No vapor.</div>
       <h2>What exists today.</h2>
-      <p>Every number below comes from our current test set &mdash; one wearer, one room. Making it work on any hand is the mountain we are climbing, in public, with the waitlist watching.</p>
+      <p>Built by one engineer, in public. Every number is from the current prototype.</p>
     </div>
     <div class="cols2">
       <div class="col-block">
         <div class="col-label">REAL TODAY</div>
-        <div class="fact"><span class="dot"></span><span>A working prototype on a dev board &mdash; an Arduino-class chip with a 6-axis motion sensor, worn on a finger strap</span></div>
-        <div class="fact"><span class="dot"></span><span>Three air gestures recognized: swipe left-to-right, swipe right-to-left, and an air-drawn circle</span></div>
-        <div class="fact"><span class="dot"></span><span>The neural network runs entirely on the device &mdash; it works in airplane mode</span></div>
-        <div class="fact"><span class="dot"></span><span>A 1.00 F1 score on our current validation set &mdash; small, but clean, after hand-auditing every mislabeled sample</span></div>
+        <div class="fact"><span class="dot"></span><span>A real prototype, worn on a finger strap</span></div>
+        <div class="fact"><span class="dot"></span><span>Three gestures: swipe left, swipe right, circle</span></div>
+        <div class="fact"><span class="dot"></span><span>All AI on the ring &mdash; works in airplane mode</span></div>
+        <div class="fact"><span class="dot"></span><span>1.00 F1 score on our current test set</span></div>
       </div>
       <div class="col-block warm">
         <div class="col-label">NEXT UP</div>
-        <div class="fact"><span class="arrow">&rarr;</span><span>Bluetooth control &mdash; gestures become real keystrokes and media keys on your phone and computer</span></div>
-        <div class="fact"><span class="arrow">&rarr;</span><span>Training data from many hands, not one &mdash; waitlist members get first invites to record gestures</span></div>
-        <div class="fact"><span class="arrow">&rarr;</span><span>Ring-sized hardware &mdash; the part we refuse to fake with 3D renders until it exists</span></div>
+        <div class="fact"><span class="arrow">&rarr;</span><span>Gestures become real keystrokes, over Bluetooth</span></div>
+        <div class="fact"><span class="arrow">&rarr;</span><span>Trained on many hands, not one</span></div>
+        <div class="fact"><span class="arrow">&rarr;</span><span>Ring-sized hardware &mdash; no fake renders</span></div>
       </div>
     </div>
   </div>
@@ -240,28 +240,21 @@
   <div class="section">
     <div class="lede"><h2>How it works.</h2></div>
     <div class="cols3">
-      <div class="how"><div class="how-num">1.</div><div class="how-name">Sense</div><p>A 6-axis motion sensor samples your hand&rsquo;s acceleration and rotation about a hundred times per second.</p></div>
-      <div class="how"><div class="how-num">2.</div><div class="how-name">Think</div><p>A tiny neural network runs on the ring itself and names the gesture in about one millisecond. Nothing leaves your finger.</p></div>
-      <div class="how"><div class="how-num">3.</div><div class="how-name">Act</div><p>Bluetooth carries the command to whatever you point it at: next slide, play and pause, lights on.</p></div>
+      <div class="how"><div class="how-num">1.</div><div class="how-name">Sense</div><p>A motion sensor reads your hand 100&times; a second.</p></div>
+      <div class="how"><div class="how-num">2.</div><div class="how-name">Think</div><p>A neural net on the ring names the gesture in ~1 ms.</p></div>
+      <div class="how"><div class="how-num">3.</div><div class="how-name">Act</div><p>Bluetooth fires the command. Next slide. Play. Lights.</p></div>
     </div>
   </div>
 
   <div class="section waitlist-outer" id="waitlist">
     <form class="card" id="waitlist-form" novalidate>
       <div>
-        <h2>Tell us what to build first.</h2>
-        <p class="sub">The waitlist is also a vote. Two fields, twenty seconds &mdash; the rest is optional.</p>
+        <h2>Get Archon first.</h2>
+        <p class="sub">Ten seconds. No spam.</p>
       </div>
       <div class="email-row">
         <input type="email" name="email" id="f-email" placeholder="you@email.com" autocomplete="email" required>
         <button class="btn" type="submit" id="f-submit">Put me on the list</button>
-      </div>
-      <div class="q">
-        <div class="q-label">If we could ship only one thing at launch, which do you pick?</div>
-        <label class="radio-row"><input type="radio" name="pick" value="gestures"><span>Gesture control for my computer, phone and slides</span></label>
-        <label class="radio-row"><input type="radio" name="pick" value="health"><span>Sleep and health tracking</span></label>
-        <label class="radio-row"><input type="radio" name="pick" value="payments"><span>Contactless payments</span></label>
-        <label class="radio-row"><input type="radio" name="pick" value="unlock"><span>Unlocking doors, cars and devices</span></label>
       </div>
       <div class="divider"><span>OPTIONAL</span></div>
       <div class="q">
@@ -285,11 +278,11 @@
         </div>
       </div>
       <div class="form-error" id="f-error"></div>
-      <div class="fineprint">No spam &mdash; progress updates about twice a month. Unsubscribe anytime.</div>
+      <div class="fineprint">Progress updates twice a month. Unsubscribe anytime.</div>
     </form>
     <div class="card thanks" id="thanks">
       <h3>You are on the list.</h3>
-      <p>Thank you &mdash; your vote counts. We publish progress about twice a month, ugly prototypes included.</p>
+      <p>Thank you. Progress updates twice a month &mdash; ugly prototypes included.</p>
       <p class="local-note" id="local-note"></p>
     </div>
   </div>
@@ -447,13 +440,6 @@
       if (t) t.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
     });
   });
-  document.querySelectorAll('.radio-row input').forEach(function (r) {
-    r.addEventListener('change', function () {
-      document.querySelectorAll('.radio-row').forEach(function (row) {
-        row.classList.toggle('picked', row.querySelector('input').checked);
-      });
-    });
-  });
   document.getElementById('chips').addEventListener('click', function (ev) {
     var c = ev.target.closest('.chip'); if (c) c.classList.toggle('on');
   });
@@ -484,13 +470,11 @@
   }
   function collect() {
     var email = document.getElementById('f-email').value.trim();
-    var pick = (form.querySelector('input[name="pick"]:checked') || {}).value || '';
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { err: 'Please enter a valid email address.' };
-    if (!pick) return { err: 'Pick one launch feature — that vote is the whole point.' };
     var uses = [];
     document.querySelectorAll('#chips .chip.on').forEach(function (c) { uses.push(c.textContent); });
     var tester = (document.querySelector('#tester .chip.on') || {}).dataset;
-    return { entry: { email: email, pick: pick, uses: uses, tester: tester ? tester.v : '', ts: new Date().toISOString() } };
+    return { entry: { email: email, uses: uses, tester: tester ? tester.v : '', ts: new Date().toISOString() } };
   }
 
   async function saveEntry(entry) {
@@ -569,9 +553,9 @@
   function refreshAdmin() {
     if (location.hash !== '#admin') return;
     var all = readStore().entries.concat(localEntries());
-    var rows = ['email,pick,uses,tester,timestamp'];
+    var rows = ['email,uses,tester,timestamp'];
     all.forEach(function (x) {
-      rows.push([x.email, x.pick, '"' + (x.uses || []).join('; ') + '"', x.tester, x.ts].join(','));
+      rows.push([x.email, '"' + (x.uses || []).join('; ') + '"', x.tester, x.ts].join(','));
     });
     document.getElementById('admin-count').textContent = '(' + all.length + ')';
     document.getElementById('admin-csv').value = rows.join('\n');
