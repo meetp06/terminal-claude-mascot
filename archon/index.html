@@ -485,7 +485,15 @@
   var soundBtn = document.getElementById('sound');
   var soundLabel = document.getElementById('sound-label');
   var music = document.getElementById('bg-music');
-  music.volume = 0.5;
+  music.volume = 0;
+  var TARGET_VOL = 0.22;
+  function fadeIn() {
+    var t = setInterval(function () {
+      if (music.paused) { clearInterval(t); return; }
+      music.volume = Math.min(TARGET_VOL, music.volume + 0.02);
+      if (music.volume >= TARGET_VOL) clearInterval(t);
+    }, 120);
+  }
   function musicOff() {
     try { return localStorage.getItem('archon-sound') === 'off'; } catch (e) { return false; }
   }
@@ -495,7 +503,7 @@
     soundLabel.textContent = on ? 'Sound on' : 'Sound';
   }
   function startMusic() {
-    music.play().then(function () { setSoundUI(true); }).catch(function () {});
+    music.play().then(function () { setSoundUI(true); fadeIn(); }).catch(function () {});
   }
   soundBtn.addEventListener('click', function () {
     if (music.paused) {
