@@ -1,8 +1,20 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Archon is a smart ring that turns hand gestures into commands. AI on the ring, no camera, no cloud. Built in public.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Archon. Your hand is the remote.">
+<meta property="og:description" content="A smart ring that turns hand gestures into commands. AI on the ring, no camera, no cloud. Built in public.">
+<meta property="og:url" content="https://archon-ring.netlify.app/">
+<meta property="og:image" content="https://archon-ring.netlify.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Archon. Your hand is the remote.">
+<meta name="twitter:description" content="A smart ring that turns hand gestures into commands. AI on the ring, no camera, no cloud.">
+<meta name="twitter:image" content="https://archon-ring.netlify.app/og.png">
 </head>
 <body>
 <title>Archon</title>
@@ -317,7 +329,7 @@
     <form class="card" id="waitlist-form" name="waitlist" method="POST" action="/" data-netlify="true" data-netlify-honeypot="bot-field" novalidate>
       <input type="hidden" name="form-name" value="waitlist">
       <p style="display:none"><label>Leave empty: <input name="bot-field"></label></p>
-      <input type="hidden" name="uses"><input type="hidden" name="functions"><input type="hidden" name="other"><input type="hidden" name="tester"><input type="hidden" name="ts">
+      <input type="hidden" name="uses"><input type="hidden" name="functions"><input type="hidden" name="other"><input type="hidden" name="tester"><input type="hidden" name="ts"><input type="hidden" name="src">
       <div>
         <h2>Get Archon first.</h2>
         <p class="sub">The first testers come from this list. Ten seconds, no spam.</p>
@@ -615,9 +627,17 @@
       }
     });
     var tester = (document.querySelector('#tester .chip.on') || {}).dataset;
-    return { entry: { email: email, uses: uses, details: details, other: otherVal.trim(), tester: tester ? tester.v : '', ts: new Date().toISOString() } };
+    return { entry: { email: email, uses: uses, details: details, other: otherVal.trim(), tester: tester ? tester.v : '', src: SRC, ts: new Date().toISOString() } };
   }
 
+  var SRC = (function () {
+    try {
+      var q = new URLSearchParams(location.search).get('src');
+      if (q) return q.slice(0, 40);
+      if (document.referrer) return new URL(document.referrer).hostname;
+    } catch (e) {}
+    return '';
+  })();
   var lastTrace = [];
   async function saveEntry(entry) {
     lastTrace = [];
@@ -653,7 +673,7 @@
         var body = new URLSearchParams({
           'form-name': 'waitlist', email: entry.email,
           uses: (entry.uses || []).join('; '), functions: (entry.details || []).join('; '),
-          other: entry.other || '', tester: entry.tester || '', ts: entry.ts
+          other: entry.other || '', tester: entry.tester || '', src: entry.src || '', ts: entry.ts
         }).toString();
         var nres = await fetch('/', {
           method: 'POST',
@@ -728,9 +748,9 @@
     if (location.hash !== '#admin') return;
     var all = readStore().entries.concat(localEntries());
     var q = function (s) { return '"' + String(s == null ? '' : s).replace(/"/g, "'") + '"'; };
-    var rows = ['email,uses,functions,other,tester,timestamp'];
+    var rows = ['email,uses,functions,other,tester,source,timestamp'];
     all.forEach(function (x) {
-      rows.push([x.email, q((x.uses || []).join('; ')), q((x.details || []).join('; ')), q(x.other), x.tester, x.ts].join(','));
+      rows.push([x.email, q((x.uses || []).join('; ')), q((x.details || []).join('; ')), q(x.other), x.tester, q(x.src), x.ts].join(','));
     });
     document.getElementById('admin-count').textContent = '(' + all.length + ')';
     document.getElementById('admin-csv').value = rows.join('\n');
