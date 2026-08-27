@@ -314,7 +314,7 @@
 
 <div class="canvas">
   <div class="wrap waitlist-outer" id="waitlist">
-    <form class="card" id="waitlist-form" name="waitlist" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" novalidate>
+    <form class="card" id="waitlist-form" name="waitlist" method="POST" action="/" data-netlify="true" data-netlify-honeypot="bot-field" novalidate>
       <input type="hidden" name="form-name" value="waitlist">
       <p style="display:none"><label>Leave empty: <input name="bot-field"></label></p>
       <input type="hidden" name="uses"><input type="hidden" name="functions"><input type="hidden" name="other"><input type="hidden" name="tester"><input type="hidden" name="ts">
@@ -599,7 +599,8 @@
   function showThanks(note) {
     form.style.display = 'none';
     thanks.classList.add('show');
-    localNote.textContent = note || '';
+    var dbg = location.hash.indexOf('debug') !== -1 && lastTrace.length ? '  [debug: ' + lastTrace.join(' > ') + ']' : '';
+    localNote.textContent = (note || '') + dbg;
   }
   function collect() {
     var email = document.getElementById('f-email').value.trim();
@@ -617,8 +618,11 @@
     return { entry: { email: email, uses: uses, details: details, other: otherVal.trim(), tester: tester ? tester.v : '', ts: new Date().toISOString() } };
   }
 
+  var lastTrace = [];
   async function saveEntry(entry) {
+    lastTrace = [];
     if (window.claude && typeof window.claude.use === 'function') {
+      lastTrace.push('preview-page-store');
       var art = await window.claude.use('artifact');
       if (art) {
         var data = readStore();
@@ -644,7 +648,7 @@
         if (res.ok) return { ok: true, mode: 'endpoint' };
       } catch (e) {}
     }
-    if (form.getAttribute('data-netlify')) {
+    {
       try {
         var body = new URLSearchParams({
           'form-name': 'waitlist', email: entry.email,
@@ -656,12 +660,14 @@
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: body
         });
+        lastTrace.push('netlify HTTP ' + nres.status);
         if (nres.ok) return { ok: true, mode: 'endpoint' };
-      } catch (e) {}
+      } catch (e) { lastTrace.push('netlify network error'); }
     }
     try {
       var arr = localEntries(); arr.push(entry);
       localStorage.setItem('archon-local', JSON.stringify(arr));
+      lastTrace.push('saved locally only');
       return { ok: true, mode: 'local' };
     } catch (e) { return { ok: false }; }
   }
